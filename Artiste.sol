@@ -9,19 +9,20 @@ contract ArtisteContract{
     }
 
     mapping(address => Artiste) list_artiste;
-    address[] list_ban;
+    mapping(address => bool) list_ban;
     address owner;
 
-    constructor(){
+    constructor() public{
         owner = msg.sender;
     }
 
     modifier admin(){
-        require(msg.sender == owner);
+        require(msg.sender == owner,"Vous n'etes pas admin");
+        _;
     }
 
     function inscription(string memory _nom) public{
-        require(contains(msg.sender) == true , "Vous êtes déjà banni!");
+        require(list_ban[msg.sender] == true,"Vous êtes déjà banni!");
 
         list_artiste[msg.sender].reputation = 1;
         list_artiste[msg.sender].nom = _nom;
@@ -29,17 +30,6 @@ contract ArtisteContract{
 
     function ban(address ban_user) public admin{
         list_artiste[ban_user].reputation = 0;
-        list_ban.push(ban_user);
-    }
-
-    function contains(address is_ban) public (bool){
-        bool find = false;
-
-        for(uint i = 0; list_ban.length; i++){
-            if(list_ban[i] == is_ban){
-                find = true;
-            }
-        }
-        return find;
+        list_ban[ban_user] = true;
     }
 }
