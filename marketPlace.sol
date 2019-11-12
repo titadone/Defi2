@@ -34,7 +34,12 @@ contract marketPlace{
     list_ban.push[ban_user];
   }
 
-  function contain(address is_ban) public (bool){
-    return list_ban[is_ban];
-  }
+  function contain(address is_ban) public view returns(bool){
+      bool find = false;
+    for(uint i = 0; i < list_ban.length; i++){
+        if(list_ban[i] == is_ban){
+            return true;
+        }
+        return find;
+    }
 }
