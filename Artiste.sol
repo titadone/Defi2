@@ -3,13 +3,31 @@ pragma solidity ^0.5.11;
 
 contract ArtisteContract{
 
+    enum EtatDemande{
+        OUVERTE,
+        ENCOURS,
+        FERMEE
+        }
+
     struct Artiste{
         string nom;
         uint256 reputation;
     }
 
+    struct Demande {
+        address owner;
+        uint256 remuneration;
+        uint256 delai_acceptation;
+        string description;
+        EtatDemande statut;
+        mapping(address => bool) list_candidats;
+        //address[] candidats;
+        uint256 nbCandidats;
+    }
+
     mapping(address => Artiste) list_artiste;
     mapping(address => bool) list_ban;
+    Demande[] list_demande;
     address owner;
 
     constructor() public{
@@ -17,7 +35,7 @@ contract ArtisteContract{
     }
 
     modifier admin(){
-        require(msg.sender == owner,"Vous n'etes pas admin");
+        require(msg.sender == owner,"Vous n'etes pas admin de ce contrat");
         _;
     }
 
@@ -31,5 +49,15 @@ contract ArtisteContract{
     function ban(address ban_user) public admin{
         list_artiste[ban_user].reputation = 0;
         list_ban[ban_user] = true;
+    }
+
+    function ajouterDemande(uint256 remuneration, string memory nom, uint256 delai) public payable{
+        Demande d = new Demande();
+        d.remuneration = remuneration;
+        d.description = nom;
+        d.delai_acceptation = delai;
+        d.statut = EtatDemande.OUVERTE;
+        d.owner = msg.sender;
+        
     }
 }
