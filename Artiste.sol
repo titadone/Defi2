@@ -7,7 +7,7 @@ contract ArtisteContract{
         OUVERTE,
         ENCOURS,
         FERMEE
-        }
+    }
 
     struct Artiste{
         string nom;
@@ -20,12 +20,11 @@ contract ArtisteContract{
         uint256 delai_acceptation;
         string description;
         EtatDemande statut;
-        mapping(address => bool) list_candidats;
-        //address[] candidats;
         uint256 nbCandidats;
     }
 
     mapping(address => Artiste) list_artiste;
+    mapping(address => Demande) list_candidats;
     mapping(address => bool) list_ban;
     Demande[] list_demande;
     address owner;
@@ -52,12 +51,15 @@ contract ArtisteContract{
     }
 
     function ajouterDemande(uint256 remuneration, string memory nom, uint256 delai) public payable{
-        Demande d = new Demande();
+        Demande d = Demande(msg.sender, remuneration, delai, nom, EtatDemande.OUVERTE,0);
+        list_demande.push(d);
+        /*
         d.remuneration = remuneration;
         d.description = nom;
         d.delai_acceptation = delai;
         d.statut = EtatDemande.OUVERTE;
         d.owner = msg.sender;
-        
+        list_demande.push(d);
+        */
     }
 }
