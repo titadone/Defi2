@@ -14,17 +14,23 @@ contract ArtisteContract{
         uint256 reputation;
     }
 
+    struct Entreprise{
+        string nom;
+        address addresse;
+    }
+
     struct Demande {
-        address owner;
         uint256 remuneration;
         uint256 delai_acceptation;
         string description;
+        uint256 reputation_min;
         EtatDemande statut;
-        uint256 nbCandidats;
+        mapping(address => Artiste) list_candidat;
     }
 
     mapping(address => Artiste) list_artiste;
     mapping(address => Demande) list_candidats;
+    mapping(address => Entreprise) list_entreprise;
     mapping(address => bool) list_ban;
     Demande[] list_demande;
     address owner;
@@ -50,8 +56,9 @@ contract ArtisteContract{
         list_ban[ban_user] = true;
     }
 
-    function ajouterDemande(uint256 remuneration, string memory nom, uint256 delai) public payable{
-        Demande memory d = Demande(msg.sender, remuneration, delai, nom, EtatDemande.OUVERTE,0);
+    function ajouterDemande(uint256 remuneration, string memory nom, uint256 scoreMin, uint256 delai) public payable{
+        require(list_entreprise[msg.sender].addresse == msg.sender, "Vous n'etes pas une entreprise !");
+        Demande memory d = Demande(remuneration, delai, nom, scoreMin, EtatDemande.OUVERTE);
         list_demande.push(d);
     }
 }
