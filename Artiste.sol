@@ -51,15 +51,7 @@ contract ArtisteContract{
     }
 
     function ajouterDemande(uint256 remuneration, string memory nom, uint256 delai) public payable{
-        Demande d = Demande(msg.sender, remuneration, delai, nom, EtatDemande.OUVERTE,0);
+        Demande memory d = Demande(msg.sender, remuneration, delai, nom, EtatDemande.OUVERTE,0);
         list_demande.push(d);
-        /*
-        d.remuneration = remuneration;
-        d.description = nom;
-        d.delai_acceptation = delai;
-        d.statut = EtatDemande.OUVERTE;
-        d.owner = msg.sender;
-        list_demande.push(d);
-        */
     }
 }
