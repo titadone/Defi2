@@ -43,7 +43,7 @@ contract marketPlace{
   }
 
   function ajouterDemande(uint256 remuneration, string memory description, uint delaiAcceptation ) public payable{
-    require(msg.value == remuneration + ((remuneration * 2) / 100), "N \'oubliez pas les 2% de frais !");
+    require(msg.value == remuneration + ((remuneration * 2) / 100));
     nouvelleDemande.remenuration = _remuneration;
     nouvelleDemande.description = _description;
     nouvelleDemande.statut = etatDemande[0];
