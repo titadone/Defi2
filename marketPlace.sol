@@ -42,11 +42,13 @@ contract marketPlace{
     list_ban[ban_user] = true;
   }
 
-  function ajouterDemande(uint256 remuneration, string memory description, uint delaiAcceptation ) public payable{
+  function ajouterDemande(uint256 _remuneration, uint _delaiAcceptation, string memory _description, uint _minReputation) public payable{
     require(msg.value == remuneration + ((remuneration * 2) / 100));
     nouvelleDemande.remenuration = _remuneration;
+    nouvelleDemande.delaiAcceptation = _delaiAcceptation;
     nouvelleDemande.description = _description;
     nouvelleDemande.statut = etatDemande[0];
+    nouvelleDemande.minReputation = _minReputation;
     list_demande.push(nouvelleDemande);
 
   }
