@@ -1,7 +1,8 @@
 pragma solidity ^0.5.11;
 
 contract marketPlace{
-  mapping(address => User) private users;
+  mapping(address => User) public users;
+  mapping(address => Entreprise) public entreprises;
   mapping(address => bool) list_ban;
   mapping(address => Demande) candidats;
   Demande[] list_demande;
@@ -43,6 +44,7 @@ contract marketPlace{
   }
 
   function ajouterDemande(uint256 _remuneration, uint _delaiAcceptation, string memory _description, uint _minReputation) public payable{
+    require(entreprises[msg.sender] == msg.sender);
     require(msg.value == remuneration + ((remuneration * 2) / 100));
     nouvelleDemande.remenuration = _remuneration;
     nouvelleDemande.delaiAcceptation = _delaiAcceptation;
