@@ -46,16 +46,16 @@ contract marketPlace{
   function ajouterDemande(uint256 _remuneration, uint _delaiAcceptation, string _description, uint _minReputation) public payable{
     require(entreprises[msg.sender] == msg.sender);
     require(msg.value == remuneration + ((remuneration * 2) / 100));
-    nouvelleDemande.remenuration = _remuneration;
-    nouvelleDemande.delaiAcceptation = _delaiAcceptation;
-    nouvelleDemande.description = _description;
-    nouvelleDemande.statut = etatDemande[0];
-    nouvelleDemande.minReputation = _minReputation;
-    list_demande.push(nouvelleDemande);
+    demande.remenuration = _remuneration;
+    demande.delaiAcceptation = _delaiAcceptation;
+    demande.description = _description;
+    demande.statut = etatDemande[0];
+    demande.minReputation = _minReputation;
+    list_demande.push(demande);
 
   }
 
-  function listOffre(){
+  function listOffre() public{
 
   }
 
