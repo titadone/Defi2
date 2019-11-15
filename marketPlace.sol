@@ -47,6 +47,7 @@ contract marketPlace{
     nouvelleDemande.remenuration = _remuneration;
     nouvelleDemande.description = _description;
     nouvelleDemande.statut = etatDemande[0];
+    list_demande.push(nouvelleDemande);
 
   }
 
