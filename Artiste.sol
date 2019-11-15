@@ -28,12 +28,12 @@ contract ArtisteContract{
         mapping(address => Artiste) list_candidat;
     }
 
-    mapping(address => Artiste) list_artiste;
-    mapping(address => Demande) list_candidats;
-    mapping(address => Entreprise) list_entreprise;
-    mapping(address => bool) list_ban;
-    Demande[] list_demande;
-    address owner;
+    mapping(address => Artiste) public list_artiste;
+    mapping(address => Entreprise) public list_entreprise;
+    mapping(address => bool) public list_ban;
+     //mapping(address => Demande) public list_demande;
+    Demande[] public tab_demande;
+    address public owner;
 
     constructor() public{
         owner = msg.sender;
@@ -58,7 +58,9 @@ contract ArtisteContract{
 
     function ajouterDemande(uint256 remuneration, string memory nom, uint256 scoreMin, uint256 delai) public payable{
         require(list_entreprise[msg.sender].addresse == msg.sender, "Vous n'etes pas une entreprise !");
+        uint256 commission = remuneration * 2/100;
+        require(msg.value >= (remuneration+commission), "Vous n'avez pas fournis les 2% de frais minimum");
         Demande memory d = Demande(remuneration, delai, nom, scoreMin, EtatDemande.OUVERTE);
-        list_demande.push(d);
+        tab_demande.push(d);
     }
 }
