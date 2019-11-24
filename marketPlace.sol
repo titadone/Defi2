@@ -1,6 +1,7 @@
 pragma solidity ^0.5.11;
 pragma experimental ABIEncoderV2;
 
+<<<<<<< HEAD
 import "./SafeMath.sol";
 
 contract ArtisteContract{
@@ -99,3 +100,66 @@ contract ArtisteContract{
     
     }
 }
+=======
+contract marketPlace{
+  mapping(address => User) public users;
+  mapping(address => Entreprise) public entreprises;
+  mapping(address => bool) list_ban;
+  mapping(address => Demande) candidats;
+  Demande[] list_demande;
+  address owner;
+
+  modifier admin(){
+    require(msg.sender == owner);
+  }
+
+  struct User {
+    uint reputation;
+    string nom;
+  }
+
+  enum etatDemande {OUVERTE, EN COURS, FERMEE}
+
+  struct Demande {
+    uint256 remuneration;
+    uint delaiAcceptation;
+    string description;
+    etatDemande statut;
+    uint minReputation;
+    uint candidat;
+  }
+
+  constructor() {
+    owner = msg.sender;
+  }
+
+  function  inscripton(string memory _nom) public{
+      require(list_ban[msg.sender] == true, "Vous êtes déjà banni !");
+      users[msg.sender].reputation += 1;
+      users[msg.sender].nom = _nom;
+  }
+
+  function ban(address ban_user) public admin{
+    users[ban_user].reputaion = 0;
+    list_ban[ban_user] = true;
+  }
+
+  function ajouterDemande(uint256 _remuneration, uint _delaiAcceptation, string _description, uint _minReputation) public payable{
+    require(entreprises[msg.sender] == msg.sender);
+    require(msg.value == remuneration + ((remuneration * 2) / 100));
+    demande.remenuration = _remuneration;
+    demande.delaiAcceptation = _delaiAcceptation;
+    demande.description = _description;
+    demande.statut = etatDemande[0];
+    demande.minReputation = _minReputation;
+    list_demande.push(demande);
+
+  }
+
+  function listOffre() public{
+
+  }
+
+
+}
+>>>>>>> d481c2fe9a8043ba9ee27983ef398077915c385a
